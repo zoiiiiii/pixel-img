@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Pixelate an Image</title>
+    <title>Pixel img</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
@@ -155,6 +155,7 @@
         const ctxPixelated = pixelatedCanvas.getContext('2d');
 
         img.onload = function () {
+            // 计算适应屏幕尺寸的比例
             const maxWidth = window.innerWidth * 0.5;
             const maxHeight = window.innerHeight * 0.8;
             let scaleW = maxWidth / img.width;
@@ -168,6 +169,7 @@
             originalCanvas.height = height;
             ctxOriginal.drawImage(img, 0, 0, width, height);
 
+            // 像素化过程
             const smallWidth = Math.floor(width / pixelSize);
             const smallHeight = Math.floor(height / pixelSize);
 
@@ -175,14 +177,17 @@
             const tempCtx = tempCanvas.getContext('2d');
             tempCanvas.width = smallWidth;
             tempCanvas.height = smallHeight;
+            tempCtx.imageSmoothingEnabled = false; // 禁用平滑处理，保证像素清晰
             tempCtx.drawImage(originalCanvas, 0, 0, smallWidth, smallHeight);
 
             pixelatedCanvas.width = width;
             pixelatedCanvas.height = height;
-            ctxPixelated.imageSmoothingEnabled = false;
+            ctxPixelated.imageSmoothingEnabled = false; // 同样禁用平滑处理
             ctxPixelated.drawImage(tempCanvas, 0, 0, smallWidth, smallHeight, 0, 0, width, height);
 
             adjustColors(ctxPixelated, width, height, saturation, contrast);
+
+            // 可在此添加更多处理步骤，如边缘强化等
         };
 
         img.src = URL.createObjectURL(fileInput.files[0]);
