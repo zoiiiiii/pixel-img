@@ -53,7 +53,7 @@
             margin: 10px 0 5px;
         }
 
-        .custom-file-upload {
+        .custom-file-upload,.custom-file-upload {
             background-color: transparent;
             border: 1px solid #ccc;
             padding: 0.4rem 0.8rem;
@@ -64,7 +64,7 @@
             display: block;
         }
 
-        .custom-file-upload:hover {
+        .custom-file-upload:hover,.custom-file-upload:hover {
             background-color: #eee;
         }
 
@@ -92,6 +92,9 @@
     <br>
     <label for="contrast"> Contrast (-100 - 100): <span id="contrastValue">0</span></label>
     <input type="range" id="contrast" min="-100" max="100" step="1" value="0">
+    <br>
+    <!-- 下载按钮 -->
+<button id="downloadBtn" class="custom-file-upload">Download Image</button>
 </div>
 
 <div class="result">
@@ -113,6 +116,14 @@
     document.getElementById('contrast').addEventListener('input', function () {
         document.getElementById('contrastValue').textContent = this.value;
         applyPixelation();
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', function () {
+        const canvas = document.getElementById('pixelatedCanvas');
+        const link = document.createElement('a');
+        link.download = 'pixelated-image.png'; // 默认文件名
+        link.href = canvas.toDataURL('image/png'); // 可改为 'image/jpeg' 并调整质量
+        link.click();
     });
 
     function adjustColors(ctx, width, height, saturation, contrast) {
@@ -155,7 +166,6 @@
         const ctxPixelated = pixelatedCanvas.getContext('2d');
 
         img.onload = function () {
-            // 计算适应屏幕尺寸的比例
             const maxWidth = window.innerWidth * 0.5;
             const maxHeight = window.innerHeight * 0.8;
             let scaleW = maxWidth / img.width;
@@ -169,7 +179,6 @@
             originalCanvas.height = height;
             ctxOriginal.drawImage(img, 0, 0, width, height);
 
-            // 像素化过程
             const smallWidth = Math.floor(width / pixelSize);
             const smallHeight = Math.floor(height / pixelSize);
 
@@ -177,17 +186,15 @@
             const tempCtx = tempCanvas.getContext('2d');
             tempCanvas.width = smallWidth;
             tempCanvas.height = smallHeight;
-            tempCtx.imageSmoothingEnabled = false; // 禁用平滑处理，保证像素清晰
+            tempCtx.imageSmoothingEnabled = false;
             tempCtx.drawImage(originalCanvas, 0, 0, smallWidth, smallHeight);
 
             pixelatedCanvas.width = width;
             pixelatedCanvas.height = height;
-            ctxPixelated.imageSmoothingEnabled = false; // 同样禁用平滑处理
+            ctxPixelated.imageSmoothingEnabled = false;
             ctxPixelated.drawImage(tempCanvas, 0, 0, smallWidth, smallHeight, 0, 0, width, height);
 
             adjustColors(ctxPixelated, width, height, saturation, contrast);
-
-            // 可在此添加更多处理步骤，如边缘强化等
         };
 
         img.src = URL.createObjectURL(fileInput.files[0]);
