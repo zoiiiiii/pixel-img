@@ -1,0 +1,66 @@
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+                Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            color: #333;
+            display: flex;
+            padding: 2rem;
+            margin: auto;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .controls {
+            width: 30%;
+            text-align: center;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            height: calc(100% - 40px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .control-item {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 10px;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            margin-left: 35%;
+            width: 60%;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .custom-file-upload {
+            background-color: transparent;
+            border: 1px solid #ccc;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-size: 14px;
+            width: fit-content;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #eee;
+        }
+
+        #uploadImage {
+            display: none;
+        }
